@@ -40,6 +40,7 @@ private fun MyApp(names: List<String> = listOf("World", "Compose")) {
 
 @Composable
 fun Greeting(name: String) {
+    var expanded = false
     Surface(
         color = MaterialTheme.colors.primary,
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
@@ -59,9 +60,13 @@ fun Greeting(name: String) {
 
             OutlinedButton(
                 onClick = {
+                    expanded = !expanded
                 }
             ) {
-                Text(text = "Show more")
+                if (expanded)
+                    Text(text = "Show more")
+                else
+                    Text(text = "Show less")
             }
         }
     }
