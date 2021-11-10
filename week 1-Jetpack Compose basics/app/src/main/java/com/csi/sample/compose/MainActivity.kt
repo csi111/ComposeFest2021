@@ -38,7 +38,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MyApp() {
-    Greetings()
+    var shouldShowOnboarding by remember { mutableStateOf(true) }
+
+    if (shouldShowOnboarding) {
+        OnboardingScreen {
+            shouldShowOnboarding = false
+        }
+    } else {
+        Greetings()
+    }
 }
 
 @Composable
@@ -97,8 +105,7 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun OnboardingScreen() {
-    var shouldShowOnboarding by remember { mutableStateOf(true) }
+fun OnboardingScreen(onContinueClicked: () -> Unit) {
     Surface {
         Column(
             modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
@@ -107,7 +114,7 @@ fun OnboardingScreen() {
             Text("Welcome to the Basics Codelab!")
             Button(
                 modifier = Modifier.padding(vertical = 24.dp),
-                onClick = { shouldShowOnboarding = false }
+                onClick = onContinueClicked
             ) {
                 Text("Continue")
             }
@@ -119,6 +126,6 @@ fun OnboardingScreen() {
 @Composable
 fun OnboardingPreview() {
     BasicsCodelabTheme {
-        OnboardingScreen()
+        OnboardingScreen {}
     }
 }
