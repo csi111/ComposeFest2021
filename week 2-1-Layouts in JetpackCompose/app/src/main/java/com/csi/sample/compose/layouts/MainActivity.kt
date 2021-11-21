@@ -35,10 +35,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.csi.sample.compose.layouts.ui.modifier.firstBaselineToTop
 import com.csi.sample.compose.layouts.ui.theme.ComposeLayoutsTheme
 import kotlinx.coroutines.launch
 
@@ -95,9 +97,11 @@ fun LayoutsCodelab() {
 
 @Composable
 private fun BodyContent(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Text(text = "Hi there!")
-        Text(text = "Thanks for going through the Layouts codelab")
+    MyOwnColumn(modifier = modifier.padding(8.dp)) {
+        Text(text = "MyOwnColumn")
+        Text(text = "place items")
+        Text(text = "vertically.")
+        Text(text = "We've done it by hand!")
     }
 }
 
@@ -220,5 +224,40 @@ fun ImageList() {
 fun ImageListPreview() {
     ComposeLayoutsTheme {
         ImageList()
+    }
+}
+
+@Preview
+@Composable
+fun TextWithPaddingToBaselinePreview() {
+    ComposeLayoutsTheme {
+        Text("Hi, there!", Modifier.firstBaselineToTop(32.dp))
+    }
+}
+
+@Preview
+@Composable
+fun TextWithNormalPaddingPreview() {
+    ComposeLayoutsTheme {
+        Text(text = "Hi, there!", Modifier.padding(top = 32.dp))
+    }
+}
+
+@Composable
+fun MyOwnColumn(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    Layout(modifier = modifier, content = content) { measureables, constraints ->
+        val placeables = measureables.map {
+            it.measure(constraints)
+        }
+
+        var yPosition = 0
+
+        layout(constraints.maxWidth, constraints.maxHeight) {
+            placeables.forEach { placeable ->
+                placeable.placeRelative(x = 0, y = yPosition)
+
+                yPosition += placeable.height
+            }
+        }
     }
 }
