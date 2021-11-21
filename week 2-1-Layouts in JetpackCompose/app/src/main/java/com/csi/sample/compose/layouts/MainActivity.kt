@@ -189,27 +189,36 @@ fun ImageList() {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    Row() {
-        Button(onClick = {
-            coroutineScope.launch {
-                scrollState.animateScrollToItem(0)
+    Column {
+        Row {
+            Button(onClick = {
+                coroutineScope.launch {
+                    scrollState.animateScrollToItem(0)
+                }
+            }) {
+                Text("Scroll to the top")
             }
-        }) {
-            Text("Scroll to the top")
-        }
 
-        Button(onClick = {
-            coroutineScope.launch {
-                scrollState.animateScrollToItem(listSize - 1)
+            Button(onClick = {
+                coroutineScope.launch {
+                    scrollState.animateScrollToItem(listSize - 1)
+                }
+            }) {
+                Text("Scroll to the top")
             }
-        }) {
-            Text("Scroll to the top")
+        }
+        LazyColumn(state = scrollState) {
+            items(listSize) {
+                ImageListItem(it)
+            }
         }
     }
-    LazyColumn(state = scrollState) {
-        items(listSize) {
-            ImageListItem(it)
-        }
+}
 
+@Preview
+@Composable
+fun ImageListPreview() {
+    ComposeLayoutsTheme {
+        ImageList()
     }
 }
