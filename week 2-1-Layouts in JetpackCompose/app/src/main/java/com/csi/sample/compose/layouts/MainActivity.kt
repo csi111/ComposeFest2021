@@ -17,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -33,9 +34,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeLayoutsTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+                LayoutsCodelab()
+//                Surface(color = MaterialTheme.colors.background) {
+//                    Greeting("Android")
+//                }
             }
         }
     }
@@ -56,7 +58,13 @@ fun DefaultPreview() {
 
 @Composable
 fun LayoutsCodelab() {
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            TopAppBar(title = {
+                Text(text = "LayoutsCodelab")
+            })
+        }
+    ) { innerPadding ->
         BodyContent(Modifier.padding(innerPadding))
     }
 }
